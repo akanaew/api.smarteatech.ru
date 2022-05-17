@@ -96,7 +96,6 @@ class RestaurantSeeder extends Seeder
         }
 
         foreach ($restaurants as $key => $item) {
-            var_dump($key);
             $restaurant = new Restaurant();
             $restaurant->name_en = $item['name_en'];
             $restaurant->name_ru = $item['name_ru'];
