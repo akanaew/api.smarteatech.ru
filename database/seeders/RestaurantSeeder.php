@@ -29,6 +29,7 @@ class RestaurantSeeder extends Seeder
     public function run()
     {
         $restaurants = [];
+        $categories = [];
         $filepath_restaurants_logo = '/uploads/restaurants/logo/';
         $filepath_restaurants_dishes = '/uploads/restaurants/dishes/';
         $restaurants_filepath = 'C:\Users\angry\Desktop\Рестораны.xlsx';
@@ -58,13 +59,12 @@ class RestaurantSeeder extends Seeder
                 $restaurants[$key]['dishes'] = [];
 
                 $restaurantsDishesFile = SimpleXLSX::parse($row[10]);
-                $categories = [];
                 foreach ($restaurantsDishesFile->rows() as $k => $value) {
                     if ($k !== 0) {
                         if ($value[1] === "") {
-                            $categories[] = "Без категории";
+                            $categories[$key][] = "Без категории";
                         } else {
-                            $categories[] = trim($value[1]);
+                            $categories[$key][] = trim($value[1]);
                         }
 
 
@@ -90,8 +90,6 @@ class RestaurantSeeder extends Seeder
 
                     }
                 }
-
-
             }
         }
 
@@ -111,7 +109,7 @@ class RestaurantSeeder extends Seeder
 
             $cat_id = null;
 
-            foreach ($categories as $c) {
+            foreach (array_unique($categories[$key]) as $c) {
                 $dc = new RestaurantDishCategory();
                 $dc->restaurant_id = $restaurant->id;
                 $dc->name_en = $c;
