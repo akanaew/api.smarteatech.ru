@@ -77,6 +77,7 @@ class RestaurantSeeder extends Seeder
                             'name_ru' => $value[0],
                             'description_en' => $value[2],
                             'description_ru' => $value[2],
+                            'category_name' => trim($value[1]),
                             'image_id' => $image->id,
                             'calories' => (float)$value[5],
                             'proteins' => (float)$value[6],
@@ -107,18 +108,16 @@ class RestaurantSeeder extends Seeder
             $restaurant->facebook = $item['facebook'];
             $restaurant->save();
 
-            $cat_id = null;
-
             foreach (array_unique($categories[$key]) as $c) {
                 $dc = new RestaurantDishCategory();
                 $dc->restaurant_id = $restaurant->id;
                 $dc->name_en = $c;
                 $dc->name_ru = $c;
                 $dc->save();
-                $cat_id = $dc->id;
             }
 
             foreach ($item['dishes'] as $i) {
+                $cat = RestaurantDishCategory::where('name_ru', $i['category_name'])->first();
                 $dish = new RestaurantDish();
                 $dish->restaurant_id = $restaurant->id;
                 $dish->name_en = $i['name_en'];
@@ -126,7 +125,7 @@ class RestaurantSeeder extends Seeder
                 $dish->description_en = $i['description_en'];
                 $dish->description_ru = $i['description_ru'];
                 $dish->image_id = $i['image_id'];
-                $dish->category_id = $cat_id;
+                $dish->category_id = $cat->id;
                 $dish->calories = $i['calories'];
                 $dish->proteins = $i['proteins'];
                 $dish->fats = $i['fats'];
