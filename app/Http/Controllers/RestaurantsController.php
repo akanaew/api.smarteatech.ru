@@ -34,16 +34,32 @@ class RestaurantsController extends Controller
             return response()->json(RestaurantDish::with(['category', 'image'])->where([
                 ['restaurant_id', $restaurantId],
                 ['category_id', $request->get('category_id')],
-            ])->paginate(20));
+            ])
+                ->orderBy("calories")
+                ->orderBy("proteins")
+                ->orderBy("fats")
+                ->orderBy("carbohydrates")
+                ->paginate(20));
         }
 
-        return response()->json(RestaurantDish::with(['category', 'image'])->where('restaurant_id', $restaurantId)->paginate(20));
+        return response()->json(RestaurantDish::with(['category', 'image'])
+            ->where('restaurant_id', $restaurantId)
+            ->orderByDesc("calories")
+            ->orderByDesc("proteins")
+            ->orderByDesc("fats")
+            ->orderByDesc("carbohydrates")
+            ->paginate(20));
     }
 
     public function getRestaurantDishAction(Request $request, $restaurantId, $dishId): JsonResponse {
         return response()->json(RestaurantDish::with(['category', 'image'])->where([
             ['restaurant_id', $restaurantId],
             ['id', $dishId],
-        ])->first());
+        ])
+            ->orderByDesc("calories")
+            ->orderByDesc("proteins")
+            ->orderByDesc("fats")
+            ->orderByDesc("carbohydrates")
+            ->first());
     }
 }
