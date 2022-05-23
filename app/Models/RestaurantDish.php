@@ -7,6 +7,34 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RestaurantDish extends Model
 {
+    public function getWeightResultAttribute() {
+        if (str_contains($this->weight, '/')) {
+            if (str_contains($this->weight, 'шт.')) {
+                $weightArray = explode('/', $this->weight);
+                $weightCount = '';
+                $weightTmp = 0;
+                foreach ($weightArray as $item) {
+                    if (str_contains($item, ' шт.')) {
+                        $weightCount = $item;
+                    } else {
+                        $weightTmp += (int) preg_replace("/[^,.0-9]/", '', $item);
+                    }
+                }
+                return $weightCount . '/' .$weightTmp . ' г';
+            }
+
+            $weightArray = explode('/', $this->weight);
+            $weightTmp = 0;
+            foreach ($weightArray as $item) {
+                $weightTmp += (int) $item;
+            }
+
+            return $weightTmp . ' г';
+        }
+
+        return $this->weight;
+    }
+
     public function getNameAttribute()
     {
         return $this->{'name_' . app()->getLocale()};
@@ -29,6 +57,6 @@ class RestaurantDish extends Model
         });
     }
 
-    protected $appends = ['name', 'description'];
+    protected $appends = ['name', 'weight_result', 'description'];
     protected $hidden = ['name_ru', 'name_en', 'description_ru', 'description_en', 'category_id', 'image_id', 'created_at', 'updated_at'];
 }

@@ -35,10 +35,10 @@ class RestaurantsController extends Controller
                 ['restaurant_id', $restaurantId],
                 ['category_id', $request->get('category_id')],
             ])
-                ->orderBy("calories")
-                ->orderBy("proteins")
-                ->orderBy("fats")
-                ->orderBy("carbohydrates")
+                ->orderByDesc("calories")
+                ->orderByDesc("proteins")
+                ->orderByDesc("fats")
+                ->orderByDesc("carbohydrates")
                 ->paginate(20));
         }
 
