@@ -14,13 +14,13 @@ class CategoriesController extends Controller
         }
 
         if ($request->has('type')) {
-            return Category::where(['type' => $request->get('type')])->paginate(20);
+            return Category::where(['type' => $request->get('type')])->paginate(40);
         }
 
         if ($request->has('no_paginate')) {
             return Category::all();
         }
 
-        return Category::paginate(20);
+        return Category::paginate(40);
     }
 }

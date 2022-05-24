@@ -13,10 +13,10 @@ class RestaurantsController extends Controller
     public function indexAction(Request $request): JsonResponse
     {
         if ($request->has('category_id')) {
-            return response()->json(Restaurant::with(['logo', 'category'])->where('category_id', $request->get('category_id'))->with('category')->paginate(20));
+            return response()->json(Restaurant::with(['logo', 'category'])->where('category_id', $request->get('category_id'))->with('category')->paginate(40));
         }
 
-        return response()->json(Restaurant::with(['logo', 'category'])->paginate(20));
+        return response()->json(Restaurant::with(['logo', 'category'])->paginate(40));
     }
 
     public function getRestaurantAction(Request $request, $restaurantId)
@@ -39,7 +39,7 @@ class RestaurantsController extends Controller
                 ->orderByDesc("proteins")
                 ->orderByDesc("fats")
                 ->orderByDesc("carbohydrates")
-                ->paginate(20));
+                ->paginate(40));
         }
 
         return response()->json(RestaurantDish::with(['category', 'image'])
@@ -48,7 +48,7 @@ class RestaurantsController extends Controller
             ->orderByDesc("proteins")
             ->orderByDesc("fats")
             ->orderByDesc("carbohydrates")
-            ->paginate(20));
+            ->paginate(40));
     }
 
     public function getRestaurantDishAction(Request $request, $restaurantId, $dishId): JsonResponse {
