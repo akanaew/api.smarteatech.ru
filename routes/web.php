@@ -28,3 +28,7 @@ $router->group(['prefix' => '/restaurants'], function () use ($router) {
     $router->get('/{restaurantId}/dishes', 'RestaurantsController@getRestaurantDishesAction');
     $router->get('/{restaurantId}/dishes/{dishId}', 'RestaurantsController@getRestaurantDishAction');
 });
+
+$router->group(['prefix' => '/ingredients'], function () use ($router) {
+    $router->get('/', 'IngredientsController@getByName');
+});
