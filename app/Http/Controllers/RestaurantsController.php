@@ -35,13 +35,13 @@ class RestaurantsController extends Controller
                 ['restaurant_id', $restaurantId],
                 ['category_id', $request->get('category_id')],
             ])
-                ->orderByDesc("name_" . app()->getLocale())
+                ->orderBy("name_" . app()->getLocale())
                 ->paginate(40));
         }
 
         return response()->json(RestaurantDish::with(['category', 'image'])
             ->where('restaurant_id', $restaurantId)
-            ->orderByDesc("name_" . app()->getLocale())
+            ->orderBy("name_" . app()->getLocale())
             ->paginate(40));
     }
 
