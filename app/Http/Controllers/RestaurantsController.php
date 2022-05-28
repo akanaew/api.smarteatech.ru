@@ -35,19 +35,13 @@ class RestaurantsController extends Controller
                 ['restaurant_id', $restaurantId],
                 ['category_id', $request->get('category_id')],
             ])
-                ->orderByDesc("calories")
-                ->orderByDesc("proteins")
-                ->orderByDesc("fats")
-                ->orderByDesc("carbohydrates")
+                ->orderByDesc("name_" . app()->getLocale())
                 ->paginate(40));
         }
 
         return response()->json(RestaurantDish::with(['category', 'image'])
             ->where('restaurant_id', $restaurantId)
-            ->orderByDesc("calories")
-            ->orderByDesc("proteins")
-            ->orderByDesc("fats")
-            ->orderByDesc("carbohydrates")
+            ->orderByDesc("name_" . app()->getLocale())
             ->paginate(40));
     }
 

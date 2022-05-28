@@ -9,7 +9,10 @@ class IngredientsController extends Controller
 {
     public function getByName(Request $request)
     {
-        $ingredients = Ingredient::where([['name_'.app()->getLocale(), 'ILIKE', '%' . $request->get('name') . '%']])->get();
+        $ingredients =
+            Ingredient::where([
+                ['name_'.app()->getLocale(), 'ILIKE', '%' . $request->get('name') . '%']
+            ])->get();
         return response()->json($ingredients);
     }
 }
